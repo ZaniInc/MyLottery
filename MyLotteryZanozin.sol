@@ -4,6 +4,7 @@ pragma solidity ^0.8.7;
 
 contract Lottery {
 
+    mapping(address => uint)_ticketNumber;
     mapping(address => uint)_balances;
 
     address  payable [] private members;
@@ -17,17 +18,19 @@ contract Lottery {
 
     // This function we use to check number of lottery ticket
     function myTicket () public view returns (uint) {
-        return _balances[msg.sender];
+        return _ticketNumber[msg.sender];
     }
+
 
    /**
     IMPORTANTS THINKS OF THIS FUNCTION IS ADD NEW MEMBER TO ARRAY
     AND BUY 1 TICKET FOR 1 ETHER
     */
     function buyTicket () public payable {
-        require(numberOfMembers <= 10 ether && msg.value == 1 ether && _balances[msg.sender] <= 1);
+        require(numberOfMembers <= 10 ether && msg.value == 1 ether && _balances[msg.sender] < 1);
         numberOfMembers += msg.value / 1000000000000000000;
         payable(msg.sender).transfer(1);
+        _ticketNumber[msg.sender] += members.length + 1;
         _balances[msg.sender] += 1;
 
         // address add to list with members

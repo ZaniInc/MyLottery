@@ -38,7 +38,7 @@ contract Lottery {
     }
 
     // This function we use to create random number by creating random hash.
-    function randomNumber () public view returns(uint){
+    function randomNumber () private view returns(uint){
         address owner_ = msg.sender;
         return uint (keccak256(abi.encodePacked(owner_ , block.timestamp)));
     }
